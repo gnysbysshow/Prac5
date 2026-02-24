@@ -15,9 +15,10 @@ namespace Prac5
             {"что можно сломать, даже не назвав этого?", "тишина"},
             {"Что было «завтра», а будет «вчера»?", "сегодня"},
             {"Что можно видеть с закрытыми глазами?", "сон"},
-            {"Что принадлежит вам, но другие используют это чаще?", "ваше имя"}
+            {"Что принадлежит вам, но другие используют это чаще?", "имя"},
+            {"Из какой посуды нельзя ничего поесть?", "из пустой"}
         };
-
+        
         static void InitializeGame()
         {
             playerHP = 100;
@@ -35,22 +36,23 @@ namespace Prac5
             Console.WriteLine($"HP: {playerHP}/{playerMaxHP} | Золото: {playerGold} | Зелья: {playerPotions} | Стрелы: {playerArrows}");
             Console.ResetColor();
         }
-
+        static void WriteWithColor(string text, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(text);
+            Console.ResetColor();
+        }
         static void UsePotion()
         {
             if (playerPotions > 0 && playerHP < playerMaxHP)
             {
                 playerHP = Math.Min(playerHP + 30, playerMaxHP);
                 playerPotions--;
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Вы выпили зелье. +30 HP.");
-                Console.ResetColor();
+                WriteWithColor("Вы выпили зелье. +30 HP.", ConsoleColor.Cyan);
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Нельзя использовать зелье сейчас.");
-                Console.ResetColor();
+                WriteWithColor("Нельзя использовать зелье сейчас.", ConsoleColor.Red);
             }
         }
 
@@ -58,26 +60,20 @@ namespace Prac5
         {
             while (monsterHP > 0 && playerHP > 0)
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"Монстр: {monsterHP} HP | Ваш ход. (1 - Меч, 2 - Лук, 3 - Зелье)");
-                Console.ResetColor();
+                WriteWithColor($"Монстр: {monsterHP} HP | Ваш ход. (1 - Меч, 2 - Лук, 3 - Зелье)", ConsoleColor.Yellow); 
                 string choice = Console.ReadLine();
                 if (choice == "1")
                 {
                     int dmg = rng.Next(10, 21) + swordDamage;
                     monsterHP -= dmg;
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"Вы нанесли {dmg} урона мечом.");
-                    Console.ResetColor();
+                    WriteWithColor($"Вы нанесли {dmg} урона мечом.", ConsoleColor.Green);
                 }
                 else if (choice == "2" && playerArrows > 0)
                 {
                     int dmg = rng.Next(5, 16);
                     monsterHP -= dmg;
                     playerArrows--;
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"Вы нанесли {dmg} урона из лука. Осталось стрел: {playerArrows}");
-                    Console.ResetColor();
+                    WriteWithColor($"Вы нанесли {dmg} урона из лука. Осталось стрел: {playerArrows}", ConsoleColor.Green);
                 }
                 else if (choice == "3") UsePotion();
                 else { Console.WriteLine("Неверный выбор."); continue; }
@@ -86,17 +82,13 @@ namespace Prac5
                 {
                     int gold = rng.Next(5, 16);
                     playerGold += gold;
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"Монстр побежден! Вы нашли {gold} золота.");
-                    Console.ResetColor();
+                    WriteWithColor($"Монстр побежден! Вы нашли {gold} золота.", ConsoleColor.Yellow);
                     break;
                 }
 
                 int monsterDmg = rng.Next(monsterAttack - 3, monsterAttack + 4);
                 playerHP -= monsterDmg;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Монстр атаковал и нанес {monsterDmg} урона.");
-                Console.ResetColor();
+                WriteWithColor($"Монстр атаковал и нанес {monsterDmg} урона.", ConsoleColor.Red);
                 if (playerHP <= 0) gameActive = false;
             }
         }
@@ -128,9 +120,7 @@ namespace Prac5
 
         static void VisitMerchant()
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Торговец: Купи зелье (10 золота) или стрелы (5 золота за 3)");
-            Console.ResetColor();
+            WriteWithColor("Торговец: Купи зелье (10 золота) или стрелы (5 золота за 3)", ConsoleColor.Blue);
             string choice = Console.ReadLine();
             if (choice == "зелье" && playerGold >= 10) { playerPotions++; playerGold -= 10; Console.WriteLine("Куплено зелье."); }
             else if (choice == "стрелы" && playerGold >= 5) { playerArrows += 3; playerGold -= 5; Console.WriteLine("Куплены стрелы."); }
