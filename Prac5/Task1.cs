@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Prac5
 {
@@ -7,6 +9,14 @@ namespace Prac5
         static int playerHP, playerMaxHP, playerGold, playerPotions, playerArrows, swordDamage;
         static Random rng = new Random();
         static bool gameActive;
+        static Dictionary<string,string> puzzles = new Dictionary<string, string>() 
+        {
+            {"может ли страус назвать себя птицей?", "нет, страусы не разговаривают"},
+            {"что можно сломать, даже не назвав этого?", "тишина"},
+            {"Что было «завтра», а будет «вчера»?", "сегодня"},
+            {"Что можно видеть с закрытыми глазами?", "сон"},
+            {"Что принадлежит вам, но другие используют это чаще?", "ваше имя"}
+        };
 
         static void InitializeGame()
         {
@@ -163,9 +173,10 @@ namespace Prac5
         static void PuzzleEvent()
         {
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("Загадка: что можно сломать, даже не назвав этого?");
+            var puzzle = puzzles.ElementAt(rng.Next(puzzles.Count));
+            Console.WriteLine($"Загадка: {puzzle.Key}");
             Console.ResetColor();
-            if (Console.ReadLine()?.ToLower() == "тишина")
+            if (Console.ReadLine()?.ToLower() == puzzle.Value)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Верно! Вы получили зелье.");
