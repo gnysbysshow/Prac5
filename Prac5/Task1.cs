@@ -32,11 +32,9 @@ namespace Prac5
 
         static void ShowStats()
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"HP: {playerHP}/{playerMaxHP} | Золото: {playerGold} | Зелья: {playerPotions} | Стрелы: {playerArrows}");
-            Console.ResetColor();
+            WriteWithColor($"HP: {playerHP}/{playerMaxHP} | Золото: {playerGold} | Зелья: {playerPotions} | Стрелы: {playerArrows}", ConsoleColor.Cyan);
         }
-        static void WriteWithColor(string text, ConsoleColor color)
+        static void WriteWithColor(string text, ConsoleColor color = ConsoleColor.White)
         {
             Console.ForegroundColor = color;
             Console.WriteLine(text);
@@ -162,16 +160,13 @@ namespace Prac5
 
         static void PuzzleEvent()
         {
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
             var puzzle = puzzles.ElementAt(rng.Next(puzzles.Count));
-            Console.WriteLine($"Загадка: {puzzle.Key}");
-            Console.ResetColor();
+            WriteWithColor($"Загадка: {puzzle.Key}", ConsoleColor.DarkCyan);
+
             if (Console.ReadLine()?.ToLower() == puzzle.Value)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Верно! Вы получили зелье.");
+                WriteWithColor("Верно! Вы получили зелье.", ConsoleColor.Green);
                 playerPotions++;
-                Console.ResetColor();
             }
             else
             {
@@ -188,17 +183,13 @@ namespace Prac5
         {
             int dmg = rng.Next(5, 21);
             playerHP -= dmg;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Ловушка! Вы потеряли {dmg} HP.");
-            Console.ResetColor();
+            WriteWithColor($"Ловушка! Вы потеряли {dmg} HP.", ConsoleColor.Red);
             if (playerHP <= 0) gameActive = false;
         }
 
         static void ProcessRoom(int roomNumber)
         {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"\n--- Комната {roomNumber} ---");
-            Console.ResetColor();
+            WriteWithColor($"\n--- Комната {roomNumber} ---", ConsoleColor.White);
             ShowStats();
             int eventType = rng.Next(7);
             if (roomNumber == 15) FightBoss();
