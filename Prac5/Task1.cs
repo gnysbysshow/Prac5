@@ -264,15 +264,12 @@ namespace Prac5
             Console.Clear();
             if (isWin)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("ПОБЕДА! Босс повержен.");
+                WriteWithColor("ПОБЕДА! Босс повержен.", ConsoleColor.Green);
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("ПОРАЖЕНИЕ. Вы погибли.");
+                WriteWithColor("ПОРАЖЕНИЕ. Вы погибли.", ConsoleColor.Red);
             }
-            Console.ResetColor();
             gameActive = false;
         }
 
@@ -287,9 +284,7 @@ namespace Prac5
             if (playerHP > 0) EndGame(true);
             else EndGame(false);
 
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write("\nНажмите любую клавишу для выхода...");
-            Console.ResetColor();
+            WriteWithColor("\nНажмите любую клавишу для выхода...", ConsoleColor.DarkGray);
             Console.ReadKey();
         }
 
