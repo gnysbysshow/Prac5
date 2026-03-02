@@ -203,9 +203,7 @@ namespace Prac5
 
             if (roomNumber < 15 && playerHP > 0)
             {
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("Нажмите любую клавишу чтобы продолжить...");
-                Console.ResetColor();
+                WriteWithColor("Нажмите любую клавишу чтобы продолжить...", ConsoleColor.DarkGray);
                 Console.ReadKey();
                 Console.WriteLine();
             }
@@ -215,32 +213,24 @@ namespace Prac5
         {
             int bossHP = 100;
             int turn = 0;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("ФИНАЛЬНЫЙ БОСС!");
-            Console.ResetColor();
+            WriteWithColor("ФИНАЛЬНЫЙ БОСС!", ConsoleColor.Red);
             while (bossHP > 0 && playerHP > 0)
             {
                 turn++;
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"Босс: {bossHP} HP | Ваш ход. (1 - Меч, 2 - Лук, 3 - Зелье)");
-                Console.ResetColor();
+                WriteWithColor($"Босс: { bossHP}HP | Ваш ход. (1 - Меч, 2 - Лук, 3 - Зелье)", ConsoleColor.Yellow);
                 string choice = Console.ReadLine();
                 if (choice == "1")
                 {
                     int dmg = rng.Next(10, 21) + swordDamage;
                     bossHP -= dmg;
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"Вы нанесли {dmg} урона.");
-                    Console.ResetColor();
+                    WriteWithColor($"Вы нанесли {dmg} урона мечом.", ConsoleColor.Green);
                 }
                 else if (choice == "2" && playerArrows > 0)
                 {
                     int dmg = rng.Next(5, 16);
                     bossHP -= dmg;
                     playerArrows--;
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"Вы нанесли {dmg} урона из лука.");
-                    Console.ResetColor();
+                    WriteWithColor($"Вы нанесли {dmg} урона из лука.", ConsoleColor.Green);
                 }
                 else if (choice == "3") UsePotion();
                 else continue;
@@ -250,26 +240,20 @@ namespace Prac5
                 if (turn % 3 == 0 && rng.Next(100) < 30)
                 {
                     bossHP += 10;
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Босс восстановил 10 HP.");
-                    Console.ResetColor();
+                    WriteWithColor("Босс восстановил 10 HP.", ConsoleColor.DarkRed);
                 }
 
                 if (rng.Next(100) < 20)
                 {
                     int dmg = rng.Next(15, 26) * 2;
                     playerHP -= dmg;
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine($"Босс использовал двойную атаку! {dmg} урона.");
-                    Console.ResetColor();
+                    WriteWithColor($"Босс использовал двойную атаку! {dmg} урона.", ConsoleColor.DarkRed);
                 }
                 else
                 {
                     int dmg = rng.Next(15, 26);
                     playerHP -= dmg;
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Босс атаковал и нанес {dmg} урона.");
-                    Console.ResetColor();
+                    WriteWithColor($"Босс атаковал и нанес {dmg} урона.", ConsoleColor.Red);
                 }
                 if (playerHP <= 0) gameActive = false;
             }
