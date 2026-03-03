@@ -284,8 +284,10 @@ namespace Prac5
             if (playerHP > 0) EndGame(true);
             else EndGame(false);
 
-            WriteWithColor("\nНажмите любую клавишу для выхода...", ConsoleColor.DarkGray);
+            WriteWithColor("Нажмите любую клавишу чтобы продолжить...", ConsoleColor.DarkGray);
             Console.ReadKey();
+            Console.Clear();
+            StartGame();
         }
 
         static void Main()
